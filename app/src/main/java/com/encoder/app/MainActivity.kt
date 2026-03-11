@@ -139,7 +139,9 @@ class MainActivity : Activity() {
             zis.close()
             zipDosya.delete()
 
-            File(filesDir, KURULUM_FLAG).createNewFile()
+            // libz.so.1 symlink
+                Runtime.getRuntime().exec(arrayOf("ln", "-sf", "${applicationInfo.nativeLibraryDir}/libz.so", "${applicationInfo.nativeLibraryDir}/libz.so.1")).waitFor()
+                File(filesDir, KURULUM_FLAG).createNewFile()
             log("✅ Kurulum tamamlandı!")
 
             ui {
