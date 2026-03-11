@@ -141,6 +141,7 @@ class MainActivity : Activity() {
 
             // libz.so.1 symlink
                 Runtime.getRuntime().exec(arrayOf("ln", "-sf", "${applicationInfo.nativeLibraryDir}/libz.so", "${applicationInfo.nativeLibraryDir}/libz.so.1")).waitFor()
+                File(filesDir, "apk_assets/.native_dir").writeText(applicationInfo.nativeLibraryDir)
                 File(filesDir, KURULUM_FLAG).createNewFile()
             log("✅ Kurulum tamamlandı!")
 
