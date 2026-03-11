@@ -164,13 +164,13 @@ class MainActivity : Activity() {
             "apk_assets/strip",
             "apk_assets/aarch64-linux-android21-clang",
             "apk_assets/armv7a-linux-androideabi21-clang",
+            "apk_assets/python3.13",
             "apk_assets/555.py"
         )
         for (dosya in binDosyalar) {
             File(filesDir, dosya).setExecutable(true, false)
         }
 
-        // Symlink: clang ve clang-18 → clang-21
         val clang21 = File(filesDir, "apk_assets/clang-21")
         val clangLink = File(filesDir, "apk_assets/clang")
         val clang18Link = File(filesDir, "apk_assets/clang-18")
@@ -214,18 +214,23 @@ class MainActivity : Activity() {
             try {
                 val assetsDir = File(filesDir, "apk_assets")
                 val scriptDosya = File(assetsDir, SCRIPT_ADI)
+                val python3 = File(assetsDir, "python3.13")
                 val ciktiDosya = File(filesDir, "c.py")
+                val pythonLib = File(assetsDir, "python3.13_lib")
 
                 val env = arrayOf(
                     "PATH=${assetsDir.absolutePath}:${System.getenv("PATH")}",
                     "HOME=${filesDir.absolutePath}",
                     "TMPDIR=${cacheDir.absolutePath}",
                     "ENCODER_ASSETS=${assetsDir.absolutePath}",
-                    "ENCODER_OUT=${ciktiDosya.absolutePath}"
+                    "ENCODER_OUT=${ciktiDosya.absolutePath}",
+                    "PYTHONHOME=${assetsDir.absolutePath}",
+                    "PYTHONPATH=${pythonLib.absolutePath}:${File(pythonLib, "site-packages").absolutePath}",
+                    "LD_LIBRARY_PATH=${assetsDir.absolutePath}:${System.getenv("LD_LIBRARY_PATH") ?: ""}"
                 )
 
                 val proc = Runtime.getRuntime().exec(
-                    arrayOf("python3", scriptDosya.absolutePath),
+                    arrayOf(python3.absolutePath, scriptDosya.absolutePath),
                     env,
                     filesDir
                 )
@@ -237,6 +242,10 @@ class MainActivity : Activity() {
 
                 proc.inputStream.bufferedReader().forEachLine { satir ->
                     log(satir)
+                }
+
+                proc.errorStream.bufferedReader().forEachLine { satir ->
+                    log("⚠ $satir")
                 }
 
                 proc.waitFor()
