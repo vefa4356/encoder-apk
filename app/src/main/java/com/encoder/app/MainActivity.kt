@@ -25,7 +25,7 @@ class MainActivity : Activity() {
     private val DOSYA_SEC_KOD = 1001
 
     private val ASSETS_URL = "https://github.com/vefa4356/encoder-assets/raw/master/apk_assets.zip"
-    private val KURULUM_FLAG = "kuruldu.flag"
+    private val KURULUM_FLAG = "kuruldu_v2.flag"
     private val SCRIPT_ADI = "555.py"
 
     override fun onCreate(savedInstanceState: Bundle?) {
