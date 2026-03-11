@@ -1,0 +1,34 @@
+name: Cython Compile
+
+on:
+  workflow_dispatch:
+    inputs:
+      py_file:
+        description: 'Python file content'
+        required: true
+        type: string
+
+jobs:
+  cython:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Python kur
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Cython kur
+      run: pip install cython
+
+    - name: Dosyayı yaz
+      run: echo "${{ github.event.inputs.py_file }}" > input.py
+
+    - name: Cython derle
+      run: cython --embed -3 input.py -o output.c
+
+    - name: C dosyasını yükle
+      uses: actions/upload-artifact@v4
+      with:
+        name: cython-output
+        path: output.c
+        retention-days: 1

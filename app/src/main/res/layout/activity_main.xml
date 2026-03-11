@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#1a1a2e">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🔐 Encoder"
+        android:textSize="24sp"
+        android:textColor="#e94560"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/btnDurum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hazırlanıyor..."
+        android:textColor="#a8a8b3"
+        android:gravity="center"
+        android:paddingBottom="8dp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/btnDosyaSec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📂 .py Dosyası Seç"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#e94560"
+        android:textColor="#ffffff"/>
+
+    <Button
+        android:id="@+id/btnPaylas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📤 c.py Paylaş"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#0f3460"
+        android:textColor="#ffffff"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp"
+        android:background="#0d0d1a"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/logView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#00ff88"
+            android:textSize="11sp"
+            android:fontFamily="monospace"/>
+
+    </ScrollView>
+
+</LinearLayout>
