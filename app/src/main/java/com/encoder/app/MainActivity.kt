@@ -27,7 +27,6 @@ class MainActivity : Activity() {
     private val ASSETS_URL = "https://github.com/vefa4356/encoder-assets/raw/master/apk_assets.zip"
     private val KURULUM_FLAG = "kuruldu.flag"
     private val SCRIPT_ADI = "555.py"
-    private val EXEC_DIR = "/data/local/tmp/encoder"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +55,6 @@ class MainActivity : Activity() {
         val flagDosya = File(filesDir, KURULUM_FLAG)
         if (flagDosya.exists()) {
             log("✅ Kurulum mevcut, hazır!")
-            execDirKur()
             ui {
                 btnDosyaSec.isEnabled = true
                 btnDosyaSec.text = "📂 .py Dosyası Seç"
@@ -65,37 +63,6 @@ class MainActivity : Activity() {
         } else {
             log("📦 İlk kurulum başlıyor...")
             indir()
-        }
-    }
-
-    private fun execDirKur() {
-        try {
-            val execDir = File(EXEC_DIR)
-            execDir.mkdirs()
-            val assetsDir = File(filesDir, "apk_assets")
-
-            // Binary'leri exec klasörüne kopyala
-            val binaries = listOf(
-                "python3.13", "clang-21", "llvm-objcopy", "strip",
-                "aarch64-linux-android21-clang",
-                "armv7a-linux-androideabi21-clang"
-            )
-            for (bin in binaries) {
-                val src = File(assetsDir, bin)
-                val dst = File(execDir, bin)
-                if (src.exists() && (!dst.exists() || src.lastModified() > dst.lastModified())) {
-                    src.copyTo(dst, overwrite = true)
-                    dst.setExecutable(true, false)
-                }
-            }
-
-            // clang symlink'leri
-            Runtime.getRuntime().exec(arrayOf("ln", "-sf", "$EXEC_DIR/clang-21", "$EXEC_DIR/clang")).waitFor()
-            Runtime.getRuntime().exec(arrayOf("ln", "-sf", "$EXEC_DIR/clang-21", "$EXEC_DIR/clang-18")).waitFor()
-
-            log("✅ Exec klasörü hazır: $EXEC_DIR")
-        } catch (e: Exception) {
-            log("⚠️ Exec klasörü hatası: ${e.message}")
         }
     }
 
@@ -172,9 +139,6 @@ class MainActivity : Activity() {
             zis.close()
             zipDosya.delete()
 
-            log("⚙️ Exec klasörü kuruluyor...")
-            execDirKur()
-
             File(filesDir, KURULUM_FLAG).createNewFile()
             log("✅ Kurulum tamamlandı!")
 
@@ -221,19 +185,25 @@ class MainActivity : Activity() {
             try {
                 val assetsDir = File(filesDir, "apk_assets")
                 val scriptDosya = File(assetsDir, SCRIPT_ADI)
-                val python3 = File(EXEC_DIR, "python3.13")
                 val ciktiDosya = File(filesDir, "c.py")
                 val pythonLib = File(assetsDir, "python3.13_lib")
 
+                // nativeLibraryDir'den python3 çalıştır
+                val nativeDir = applicationInfo.nativeLibraryDir
+                val python3 = File(nativeDir, "libpython3_exec.so")
+
+                log("🐍 Python3: ${python3.absolutePath}")
+                log("📁 Native dir: $nativeDir")
+
                 val env = arrayOf(
-                    "PATH=$EXEC_DIR:${assetsDir.absolutePath}:${System.getenv("PATH")}",
+                    "PATH=${assetsDir.absolutePath}:$nativeDir:${System.getenv("PATH")}",
                     "HOME=${filesDir.absolutePath}",
                     "TMPDIR=${cacheDir.absolutePath}",
                     "ENCODER_ASSETS=${assetsDir.absolutePath}",
                     "ENCODER_OUT=${ciktiDosya.absolutePath}",
                     "PYTHONHOME=${assetsDir.absolutePath}",
                     "PYTHONPATH=${pythonLib.absolutePath}:${File(pythonLib, "site-packages").absolutePath}",
-                    "LD_LIBRARY_PATH=${assetsDir.absolutePath}:$EXEC_DIR:${System.getenv("LD_LIBRARY_PATH") ?: ""}"
+                    "LD_LIBRARY_PATH=${assetsDir.absolutePath}:$nativeDir:${System.getenv("LD_LIBRARY_PATH") ?: ""}"
                 )
 
                 val proc = Runtime.getRuntime().exec(
