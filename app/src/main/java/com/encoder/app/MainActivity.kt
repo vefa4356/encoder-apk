@@ -205,7 +205,7 @@ class MainActivity : Activity() {
                     "ENCODER_OUT=${ciktiDosya.absolutePath}",
                     "PYTHON3_BIN=${python3.absolutePath}",
                     "PYTHONHOME=${assetsDir.absolutePath}",
-                    "PYTHONPATH=${pythonLib.absolutePath}:${File(pythonLib, "site-packages").absolutePath}",
+                    "PYTHONPATH=${pythonLib.absolutePath}:${File(pythonLib, "site-packages").absolutePath}:${File(pythonLib, "lib-dynload").absolutePath}",
                     "LD_LIBRARY_PATH=${assetsDir.absolutePath}:$nativeDir:${System.getenv("LD_LIBRARY_PATH") ?: ""}"
                 )
 
