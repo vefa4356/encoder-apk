@@ -186,7 +186,7 @@ class MainActivity : Activity() {
                 val assetsDir = File(filesDir, "apk_assets")
                 val scriptDosya = File(assetsDir, SCRIPT_ADI)
                 val ciktiDosya = File(filesDir, "c.py")
-                val pythonLib = File(assetsDir, "python3.13_lib")
+                val pythonLib = File(assetsDir, "lib/python3.13")
 
                 // nativeLibraryDir'den python3 çalıştır
                 val nativeDir = applicationInfo.nativeLibraryDir
