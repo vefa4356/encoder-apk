@@ -203,6 +203,7 @@ class MainActivity : Activity() {
                     "TMPDIR=${cacheDir.absolutePath}",
                     "ENCODER_ASSETS=${assetsDir.absolutePath}",
                     "ENCODER_OUT=${ciktiDosya.absolutePath}",
+                    "PYTHON3_BIN=${python3.absolutePath}",
                     "PYTHONHOME=${assetsDir.absolutePath}",
                     "PYTHONPATH=${pythonLib.absolutePath}:${File(pythonLib, "site-packages").absolutePath}",
                     "LD_LIBRARY_PATH=${assetsDir.absolutePath}:$nativeDir:${System.getenv("LD_LIBRARY_PATH") ?: ""}"
