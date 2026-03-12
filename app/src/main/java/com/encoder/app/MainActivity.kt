@@ -213,7 +213,7 @@ class MainActivity : Activity() {
                     "PYTHON3_BIN=${python3.absolutePath}",
                     "PYTHONHOME=${assetsDir.absolutePath}",
                     "PYTHONPATH=${pythonLib.absolutePath}:${File(pythonLib, "site-packages").absolutePath}:${File(pythonLib, "lib-dynload").absolutePath}",
-                    "LD_LIBRARY_PATH=${assetsDir.absolutePath}:$nativeDir:${System.getenv("LD_LIBRARY_PATH") ?: ""}"
+                    "LD_LIBRARY_PATH=${assetsDir.absolutePath}:$nativeDir:/data/data/com.termux/files/usr/lib:${System.getenv("LD_LIBRARY_PATH") ?: ""}"
                 )
 
                 val proc = Runtime.getRuntime().exec(
