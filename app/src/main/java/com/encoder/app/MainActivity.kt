@@ -142,11 +142,12 @@ class MainActivity : Activity() {
             // libz.so.1 symlink
                 Runtime.getRuntime().exec(arrayOf("ln", "-sf", "${applicationInfo.nativeLibraryDir}/libz.so", "${applicationInfo.nativeLibraryDir}/libz.so.1")).waitFor()
                 File(filesDir, "apk_assets/.native_dir").writeText(applicationInfo.nativeLibraryDir)
-                File(assetsDir, "aarch64-linux-android21-clang").setExecutable(true, false)
-                File(assetsDir, "armv7a-linux-androideabi21-clang").setExecutable(true, false)
-                File(assetsDir, "strip").setExecutable(true, false)
-                File(assetsDir, "llvm-objcopy").setExecutable(true, false)
-                File(assetsDir, "555.py").setExecutable(true, false)
+                val assetsDir2 = File(filesDir, "apk_assets")
+                File(assetsDir2, "aarch64-linux-android21-clang").setExecutable(true, false)
+                File(assetsDir2, "armv7a-linux-androideabi21-clang").setExecutable(true, false)
+                File(assetsDir2, "strip").setExecutable(true, false)
+                File(assetsDir2, "llvm-objcopy").setExecutable(true, false)
+                File(assetsDir2, "555.py").setExecutable(true, false)
                 File(filesDir, KURULUM_FLAG).createNewFile()
             log("✅ Kurulum tamamlandı!")
 
