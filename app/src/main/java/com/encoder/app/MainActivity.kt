@@ -204,6 +204,7 @@ class MainActivity : Activity() {
                     "TMPDIR=${cacheDir.absolutePath}",
                     "ENCODER_ASSETS=${assetsDir.absolutePath}",
                     "ENCODER_OUT=${ciktiDosya.absolutePath}",
+                    "ENCODER_CACHE=${cacheDir.absolutePath}",
                     "PYTHON3_BIN=${python3.absolutePath}",
                     "PYTHONHOME=${assetsDir.absolutePath}",
                     "PYTHONPATH=${pythonLib.absolutePath}:${File(pythonLib, "site-packages").absolutePath}:${File(pythonLib, "lib-dynload").absolutePath}",
